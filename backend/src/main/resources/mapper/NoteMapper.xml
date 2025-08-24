@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.backend.mapper.NoteMapper">
+    <resultMap id="NoteResultMap" type="com.example.backend.model.Note">
+        <id column="note_id" property="noteId"/>
+        <result column="user_id" property="userId"/>
+        <result column="title" property="title"/>
+        <result column="content" property="content"/>
+        <result column="color" property="color"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="is_pinned" property="isPinned"/>
+        <result column="is_archived" property="isArchived"/>
+    </resultMap>
+
+    <select id="findByUserId" resultMap="NoteResultMap">
+        SELECT * FROM notes WHERE user_id = #{userId}
+        <if test="isArchived != null">
+            AND is_archived = #{isArchived}
+        </if>
+        ORDER BY is_pinned DESC, updated_at DESC
+    </select>
+
+    <select id="findByUserIdAndCategoryId" resultMap="NoteResultMap">
+        SELECT * FROM notes WHERE user_id = #{userId} AND category_id = #{categoryId}
+        <if test="isArchived != null">
+            AND is_archived = #{isArchived}
+        </if>
+        ORDER BY is_pinned DESC, updated_at DESC
+    </select>
+
+    <select id="findById" resultMap="NoteResultMap">
+        SELECT * FROM notes WHERE note_id = #{noteId}
+    </select>
+
+    <select id="searchNotes" resultMap="NoteResultMap">
+        SELECT * FROM notes
+        WHERE user_id = #{userId}
+        <if test="keyword != null and keyword != ''">
+            AND (title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%'))
+        </if>
+        <if test="categoryId != null">
+            AND category_id = #{categoryId}
+        </if>
+        <if test="isArchived != null">
+            AND is_archived = #{isArchived}
+        </if>
+        ORDER BY is_pinned DESC, updated_at DESC
+        <if test="pageSize != null and pageNum != null">
+            LIMIT #{pageSize} OFFSET #{pageNum}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.example.backend.model.Note">
+        INSERT INTO notes (user_id, title, content, color, category_id, created_at, updated_at, is_pinned, is_archived)
+        VALUES (
+            #{userId},
+            #{title},
+            #{content},
+            #{color},
+            #{categoryId},
+            CURRENT_TIMESTAMP,
+            CURRENT_TIMESTAMP,
+            #{isPinned, jdbcType=BOOLEAN},
+            #{isArchived, jdbcType=BOOLEAN}
+        )
+    </insert>
+
+    <update id="update" parameterType="com.example.backend.model.Note">
+        UPDATE notes
+        SET
+            title = #{title},
+            content = #{content},
+            color = #{color},
+            category_id = #{categoryId},
+            updated_at = CURRENT_TIMESTAMP,
+            is_pinned = #{isPinned},
+            is_archived = #{isArchived}
+        WHERE note_id = #{noteId}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer">
+        DELETE FROM notes WHERE note_id = #{noteId}
+    </delete>
+
+    <update id="pinNote" parameterType="map">
+        UPDATE notes
+        SET
+            is_pinned = #{isPinned},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE note_id = #{noteId}
+    </update>
+
+    <update id="archiveNote" parameterType="map">
+        UPDATE notes
+        SET
+            is_archived = #{isArchived},
+            updated_at = CURRENT_TIMESTAMP
+        WHERE note_id = #{noteId}
+    </update>
+</mapper>

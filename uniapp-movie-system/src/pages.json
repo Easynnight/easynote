@@ -1,0 +1,34 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录"
+			}
+		},
+		{
+			"path": "pages/movies/movies",
+			"style": {
+				"navigationBarTitleText": "电影列表"
+			}
+		},
+		{
+			"path": "pages/movies/add/add",
+			"style": {
+				"navigationBarTitleText": "新增电影"
+			}
+		},
+		{
+			"path": "pages/movies/edit/edit",
+			"style": {
+				"navigationBarTitleText": "编辑电影"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "电影管理系统",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	}
+}

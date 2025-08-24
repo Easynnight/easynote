@@ -1,0 +1,88 @@
+# 通用忽略规则
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# 编译后的类文件
+*.class
+
+# 日志文件
+*.log
+logs/
+
+# IDE相关文件
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 包文件
+*.jar
+*.war
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Maven相关
+# 主项目target目录
+target/
+# 子项目target目录
+backend/target/
+
+# Node.js相关
+node_modules/
+frontend/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# 构建产物
+dist/
+build/
+out/
+frontend/dist/
+
+# 源码映射
+*.map
+
+# 临时文件
+*.tmp
+*.temp
+.cache/
+
+# 环境变量文件
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS生成的文件
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# 测试覆盖率报告
+coverage/
+.nyc_output/
+
+# 配置文件（不包含公共配置）
+*.local
+*.private
+
+# 其他
+*.pid
+*.seed
+*.pid.lock
